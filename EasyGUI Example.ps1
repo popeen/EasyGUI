@@ -1,5 +1,4 @@
 #import EasyGUI
-#. "C:\users\username\Powershell\PS-Reusable\EasyGUI.ps1"
 Import-Module EasyGUI
 
 
@@ -49,7 +48,7 @@ $button = New-Button @{
     Location = "15, 10"
     Size = "150, 35"
     Text = "Start counting"
-    Add_Click = { &$myThread } #Run the thread when the button is clicked
+    Add_Click = { &$countThread } #Run the thread when the button is clicked
 }
 
 
