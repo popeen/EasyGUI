@@ -3,12 +3,12 @@ Import-Module EasyGUI
 
 
 #Get everything setup, this is required before you use any of the features as they often depend on things being loaded
-Load-EasyGUI
+Initialize-EasyGUI
 
 
 #Hides the console, this is not required
 #When you want to see it again use Show-Console
-#Hide-Console
+Hide-Console
 
 
 #Threads should be created within a scriptblock like this, this is to prevent it from running as soon as it is created

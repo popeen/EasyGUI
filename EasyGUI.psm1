@@ -1,6 +1,6 @@
-    # Version: 3    
+    # Version: 4 
 
-    function Load-EasyGUI{
+    function Initialize-EasyGUI{
         #This needs to be called before anything else in EasyGUI is called
 
         [Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic')| Out-Null
@@ -91,6 +91,10 @@
         
 
     }
+    
+    function Use-EasyGUI{
+        Initialize-EasyGUI
+    }
 
     function Hide-Console{
         [Console.Window]::ShowWindow([Console.Window]::GetConsoleWindow(), 0)
@@ -104,14 +108,13 @@
         [Environment]::Exit(1)
     }
 
-    function Run-Form{
-        param([System.Windows.Forms.Form]$form)
-        [Windows.Forms.Application]::Run($form)
-    }
-
     function Show-Form{
-        param([System.Windows.Forms.Form]$form)
-        $form.ShowDialog()
+        param([System.Windows.Forms.Form]$form, $run)
+        if ($PSBoundParameters.ContainsKey('run')){
+            [Windows.Forms.Application]::Run($form)
+        }else{
+            $form.ShowDialog()
+        }
     }
 
 
@@ -125,21 +128,11 @@
 
     function New-Thread{
 
-        #Examples
-        # $myThread = { New-Thread { Get-Process } }        
-        # $myThread = { New-Thread "C:\users\user\Powershell\myThread.ps1" }
+        #This needs to be used inside a scriptblock and also takes a scriptblock as input
+        #Example $myThread = { New-Thread { Get-Process } }
         #You then run the thread with &$myThread
 
-        param(
-            [Parameter(Position = 0, Mandatory = $true, ParameterSetName="ScriptBlock")]
-            [ScriptBlock]$ScriptBlock,
-            [Parameter(Position = 0, Mandatory = $true, ParameterSetName="ps1Path")]
-            [String]$ps1Path
-        )
-        
-        if($PsCmdlet.ParameterSetName -eq "ps1Path"){ #Emulates function overloading, see http://codepyre.com/2012/08/ad-hoc-polymorphism-in-powershell/
-            $ScriptBlock = [scriptblock]::Create($ps1Path)
-        }
+        param([ScriptBlock]$ScriptBlock)
 
         $thread = [PowerShell]::Create().AddScript($ScriptBlock)
         $runspace = [RunspaceFactory]::CreateRunspace()
