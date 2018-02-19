@@ -128,11 +128,22 @@
 
     function New-Thread{
 
-        #This needs to be used inside a scriptblock and also takes a scriptblock as input
-        #Example $myThread = { New-Thread { Get-Process } }
-        #You then run the thread with &$myThread
+        #Examples    
+        # $myThread = { New-Thread { Get-Process } }        
+        # $myThread = { New-Thread "C:\users\user\Powershell\myThread.ps1" }
 
-        param([ScriptBlock]$ScriptBlock)
+
+        param(
+            [Parameter(Position = 0, Mandatory = $true, ParameterSetName="ScriptBlock")]
+            [ScriptBlock]$ScriptBlock,
+            [Parameter(Position = 0, Mandatory = $true, ParameterSetName="ps1Path")]
+            [String]$ps1Path
+        )
+        
+        if($PsCmdlet.ParameterSetName -eq "ps1Path"){ #Emulates function overloading, see http://codepyre.com/2012/08/ad-hoc-polymorphism-in-powershell/
+            $ScriptBlock = [scriptblock]::Create($ps1Path)
+        }
+
 
         $thread = [PowerShell]::Create().AddScript($ScriptBlock)
         $runspace = [RunspaceFactory]::CreateRunspace()
