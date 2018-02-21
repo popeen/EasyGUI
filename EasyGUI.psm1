@@ -117,7 +117,9 @@
     } 
 
     function Stop-Console{
-        [Environment]::Exit(1)
+        if($PSISE -EQ $NULL){
+            [Environment]::Exit(1)
+        }
     }
 
     function Show-Form{

@@ -77,4 +77,4 @@ Show-Form $form
 
 
 #This makes sure that the process gets killed when closing the window
-#Stop-Console
+Stop-Console
