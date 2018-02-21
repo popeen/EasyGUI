@@ -1,4 +1,4 @@
-    # Version: 4 
+    # Version: 5
 
     function Initialize-EasyGUI{
         #This needs to be called before anything else in EasyGUI is called
@@ -81,6 +81,18 @@
             Dropdown = [System.Windows.Forms.ComboBoxStyle]::DropDown
             DropdownList = [System.Windows.Forms.ComboBoxStyle]::DropDownList
             Simple = [System.Windows.Forms.ComboBoxStyle]::Simple
+        })
+
+
+
+        
+        #Stores some common icons in a variable, this can then be used in the main script
+        #Example $pictureBox = New-PictureBox { Image = $ICON.Internet }
+        
+        #TODO, Check if Get-Icon is called when the hashtable is created or when the icon is used, if it is called when created it may cause performance issues if a lot of icons get added and if so it should be changed so that Get-Icon has some predefined values that could be used instead, like this: Get-Icon "Internet". Get-Icon should still be able to use a path as normal.
+        $global:ICON = [Hashtable]::Synchronized(@{
+            Explorer = Get-Icon "C:\Windows\explorer.exe"
+            Internet = Get-Icon "C:\Program Files\Internet Explorer\iexplore.exe"
         })
 
 
@@ -268,7 +280,7 @@
     }
 
     function Get-Icon{
-        param([String]$File, [int]$IconNumber, [boolean]$LargeIcon = $TRUE)
+        param([String]$File, [int]$IconNumber = 0, [boolean]$LargeIcon = $TRUE)
         return [System.IconExtractor]::Extract($File, $IconNumber, $LargeIcon)
     }
 

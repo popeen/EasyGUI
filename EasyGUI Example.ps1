@@ -66,6 +66,7 @@ $form = New-Form @{
     Text = "Count to 60" 
     FormBorderStyle = 'FixedDialog'
     MaximizeBox = $false
+    Icon = $ICON.Explorer
 }
 $form.Controls.AddRange(@($button, $SYNC.number))
 
@@ -76,4 +77,4 @@ Show-Form $form
 
 
 #This makes sure that the process gets killed when closing the window
-Stop-Console
+#Stop-Console
