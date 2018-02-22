@@ -66,7 +66,7 @@ $form = New-Form @{
     Text = "Count to 60" 
     FormBorderStyle = 'FixedDialog'
     MaximizeBox = $false
-    Icon = $ICON.Explorer
+    Icon = Get-Icon Explorer
 }
 $form.Controls.AddRange(@($button, $SYNC.number))
 
