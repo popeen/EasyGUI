@@ -1,4 +1,4 @@
-    # Version: 6
+    # Version: 7
 
     function Initialize-EasyGUI{
         #This needs to be called before anything else in EasyGUI is called
@@ -181,6 +181,11 @@
     function New-DataGridView{
         param([HashTable]$Property)
         return New-Object System.Windows.Forms.DataGridView -Property $Property
+    }
+	
+    function New-Panel{
+        param([HashTable]$Property)
+        return New-Object System.Windows.Forms.Panel -Property $Property
     }
 	
     function New-FlowLayoutPanel{
