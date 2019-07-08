@@ -1,5 +1,5 @@
-﻿<#
-    Version: 12
+<#
+    Version: 14
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -14,6 +14,7 @@ function Initialize-EasyGUI{
     [Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic')| Out-Null
     [Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")| Out-Null
     Add-Type -AssemblyName System.Windows.Forms
+    Add-Type -AssemblyName PresentationFramework
     Add-Type -Name Window -Namespace Console -MemberDefinition '
     [DllImport("Kernel32.dll")]
     public static extern IntPtr GetConsoleWindow();
@@ -350,6 +351,40 @@ function New-Popup{
     #This is using VBScript popup, more info about it can be found here https://ss64.com/vb/popup.html
     param([String]$Title = "", [String]$Text, [int]$Type = 0)
     return (New-Object -ComObject WScript.Shell).Popup($Text, 0, $Title, $Type)
+}
+
+
+################################### CUSTOM OBJECTS ###################################
+function New-ArrayItemSelector($StringArray, $Title = "Doubleclick to select option", $Width = 300, $Height = 500){
+    $global:arrayListSelector = $null
+    $ArrayItemSelectorForm = New-Form @{
+        Size = "$Width, $Height"
+        Text = $title  
+        FormBorderStyle = 'FixedDialog'
+        MaximizeBox = $FALSE
+    }
+    $datagrid = New-DataGridView @{
+        Location = "0, 0"
+        Size = "$Width, $Height"
+        AllowUserToAddRows = $FALSE
+        ColumnCount = 1
+        ReadOnly = $TRUE
+        Add_CellMouseDoubleClick = {
+            $rowIndex = $datagrid.CurrentRow.Index
+            $columnIndex = $datagrid.CurrentCell.ColumnIndex
+            $global:arrayListSelector = $datagrid.Rows[$rowIndex].Cells[$columnIndex].value
+            $ArrayItemSelectorForm.close()
+        }
+    }
+    $datagrid.Columns[0].Width = $Width
+    $StringArray|foreach-object{
+        $datagrid.Rows.Add($_)|Out-Null
+    }
+    $ArrayItemSelectorForm.Controls.AddRange(@(
+        $datagrid
+    ))
+    $ArrayItemSelectorForm.showdialog()|Out-Null
+    return [string]$($global:arrayListSelector)
 }
 
 
