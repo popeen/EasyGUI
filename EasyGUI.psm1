@@ -1,5 +1,5 @@
 <#
-    Version: 17
+    Version: 18
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -347,7 +347,7 @@ function New-Popup{
     #This is where you find premade custom objects
 
 function New-ArrayItemSelector{
-    param([String[]]$StringArray, [String]$Title = "Doubleclick to select option", [int]$Width = 300, [int]$Height = 500)
+    param([String[]]$StringArray, [String]$Title = "Doubleclick to select option", [int]$Width = 300, [int]$Height = 300, [switch]$AutoHeight, [int]$MaxAutoHeight = 1000)
     $global:arrayListSelector = $null
     $ArrayItemSelectorForm = New-Form @{
         Size = "$Width, $Height"
@@ -380,7 +380,15 @@ function New-ArrayItemSelector{
     }
     $ArrayItemSelectorForm.Controls.AddRange(@(
         $datagrid
-    ))
+    ))        
+    if($AutoHeight){
+        $Height = ($datagrid.Rows[0].Height * $datagrid.Rows.Count) + $datagrid.Rows[0].Height + 30
+        if($Height -gt $MaxAutoHeight){
+            $Height = $MaxAutoHeight
+        }
+        $ArrayItemSelectorForm.Height = $Height
+        $datagrid.Height = $Height
+    }
     $ArrayItemSelectorForm.showdialog()|Out-Null
     return [string]$($global:arrayListSelector)
 }
