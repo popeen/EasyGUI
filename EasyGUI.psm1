@@ -1,5 +1,5 @@
 <#
-    Version: 14
+    Version: 15
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -124,7 +124,7 @@ function Stop-Console{
 
 function Show-Form{
     param([System.Windows.Forms.Form]$form, [switch]$run, [switch]$Async)
-    if($PSISE -eq $NULL -or $true){
+    if($PSISE -eq $NULL){
         if ($run){
             [void][System.Windows.Forms.Application]::Run($form)
         }else{
@@ -355,7 +355,10 @@ function New-Popup{
 
 
 ################################### CUSTOM OBJECTS ###################################
-function New-ArrayItemSelector($StringArray, $Title = "Doubleclick to select option", $Width = 300, $Height = 500){
+    #This is where you find premade custom objects
+
+function New-ArrayItemSelector{
+    param([String[]]$StringArray, [String]$Title = "Doubleclick to select option", [int]$Width = 300, [int]$Height = 500)
     $global:arrayListSelector = $null
     $ArrayItemSelectorForm = New-Form @{
         Size = "$Width, $Height"
@@ -387,6 +390,14 @@ function New-ArrayItemSelector($StringArray, $Title = "Doubleclick to select opt
     return [string]$($global:arrayListSelector)
 }
 
+
+
+
+######################################### ALIASES #########################################
+   #This is for setting aliases, manly to keep backward compatibility
+
+Set-Alias -Name New-Alert -Value New-MessageBox
+Set-Alias -Name Use-EasyGUI -Value Initialize-EasyGUI
 
 ################################### ICON EXTRACTOR CLASS ###################################
     #This is used to export icons from dll or exe files
