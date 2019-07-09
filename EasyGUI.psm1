@@ -1,5 +1,5 @@
 <#
-    Version: 16
+    Version: 17
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -355,17 +355,23 @@ function New-ArrayItemSelector{
         FormBorderStyle = 'FixedDialog'
         MaximizeBox = $FALSE
     }
+    $scriptblock = {
+        $rowIndex = $datagrid.CurrentRow.Index
+        $columnIndex = $datagrid.CurrentCell.ColumnIndex
+        $global:arrayListSelector = $datagrid.Rows[$rowIndex].Cells[$columnIndex].value
+        $ArrayItemSelectorForm.close()
+    }
     $datagrid = New-DataGridView @{
         Location = "0, 0"
         Size = "$Width, $Height"
         AllowUserToAddRows = $FALSE
         ColumnCount = 1
         ReadOnly = $TRUE
-        Add_CellMouseDoubleClick = {
-            $rowIndex = $datagrid.CurrentRow.Index
-            $columnIndex = $datagrid.CurrentCell.ColumnIndex
-            $global:arrayListSelector = $datagrid.Rows[$rowIndex].Cells[$columnIndex].value
-            $ArrayItemSelectorForm.close()
+        Add_CellMouseDoubleClick = $scriptblock
+        Add_Keydown = { 
+            if($_.KeyCode -eq "Enter"){ 
+                & $scriptblock
+            }
         }
     }
     $datagrid.Columns[0].Width = $Width
