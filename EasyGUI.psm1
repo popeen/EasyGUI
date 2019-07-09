@@ -1,5 +1,5 @@
 <#
-    Version: 15
+    Version: 16
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -95,11 +95,6 @@ function Initialize-EasyGUI{
     })
 
 
-
-
-
-
-        
 
 }
     
@@ -331,12 +326,6 @@ function Get-Icon{
     }
 }
 
-function New-InputBox{
-    #This is using VBScript InputBox, more info about it can be found here https://msdn.microsoft.com/en-us/library/microsoft.visualbasic.interaction.inputbox(v=vs.110).aspx
-    param([String]$Title = "", [String]$Text)
-    [Microsoft.VisualBasic.Interaction]::InputBox($Text, $Title)
-}
-
 function New-MessageBox{
     param([String]$Title = "", [String]$Text, [String]$Type = "ok")
     [System.Windows.MessageBox]::Show($Text, $Title, $Type)
@@ -390,7 +379,61 @@ function New-ArrayItemSelector{
     return [string]$($global:arrayListSelector)
 }
 
-
+function New-InputBox{
+    param(
+        [String]$Title = "", 
+        [String]$Text = "", 
+        [String]$ButtonText = "Submit", 
+        [int]$Width = 380, 
+        [int]$Height = 170,
+        [switch]$vbsInputBox
+    )
+    if($vbsInputBox){
+        #VB inputbox, info about VBs inputbox can be found at https://msdn.microsoft.com/en-us/library/microsoft.visualbasic.interaction.inputbox(v=vs.110).aspx
+        [Microsoft.VisualBasic.Interaction]::InputBox($Text, $Title)
+    }else{
+        #Custom inputbox (default)
+        if($Width -lt 200) { $Width = 200 }
+        if($Height -lt 120) { $Height = 120 }
+        
+        $global:inputBoxText = ""
+        $inputBoxForm = New-Form @{
+            Size = "$Width, $Height"
+            Text = $Title  
+            FormBorderStyle = 'FixedDialog'
+            MaximizeBox = $FALSE
+        }
+        $inputBoxLabel = New-Label @{
+            AutoSize = $True
+            Location = "15, 15"
+            Text = $Text
+            MaximumSize = "$($Width - 30), $($Height - 50)"
+        }
+        $inputBoxTextbox = New-TextBox @{
+            Size = "$($Width-130), 25"
+            Location = "15, $($Height-70)"
+            Add_Keydown = { 
+                if($_.KeyCode -eq "Enter"){ 
+                    $inputBoxButton.PerformClick()
+                }
+            }
+        }
+        $inputBoxButton = New-Button @{
+            Size = "75, 25"
+            Location = "$($Width-110), $($Height-70)"
+            Text = $ButtonText
+            Add_Click = {
+                $global:inputBoxText = $inputBoxTextbox.Text.Trim()
+                $inputBoxForm.close()
+            }
+        }
+        $inputBoxForm.Controls.AddRange(@(
+            $inputBoxLabel, $inputBoxTextbox, $inputBoxButton
+        ))
+        $inputBoxForm.showdialog()|Out-Null
+        return [String]$global:inputBoxText
+    }
+}
 
 
 ######################################### ALIASES #########################################
