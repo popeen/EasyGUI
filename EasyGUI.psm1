@@ -1,5 +1,5 @@
 <#
-    Version: 19
+    Version: 20
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -271,7 +271,17 @@ function New-StatusBar{
     param([HashTable]$Property)
     return New-Object System.Windows.Forms.StatusBar -Property $Property
 }
-	
+
+function New-TabControl{
+    param([HashTable]$Property)
+    return New-Object System.Windows.Forms.TabControl -Property $Property
+}	
+
+function New-TabPage{
+    param([Hashtable]$Property)
+    return New-Object System.Windows.Forms.TabPage -Property $Property
+}
+
 function New-TextBox{
     param([HashTable]$Property)
     return New-Object System.Windows.Forms.TextBox -Property $Property
