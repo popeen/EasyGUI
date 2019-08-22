@@ -1,5 +1,5 @@
 <#
-    Version: 23
+    Version: 24
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -374,13 +374,13 @@ function New-Popup{
     }
 
     $stringReturns = @{
-        "1" = "OK";
-        "2" = "Cancel";
-        "3" = "Abort";
-        "4" = "Retry";
-        "5" = "Ignore";
-        "6" = "Yes";
-        "7" = "No";
+        "1" = "OK"
+        "2" = "Cancel"
+        "3" = "Abort"
+        "4" = "Retry"
+        "5" = "Ignore"
+        "6" = "Yes"
+        "7" = "No"
     }
 
     $return = (New-Object -ComObject WScript.Shell).Popup($Text, 0, $Title, $($Type+$Icon))
