@@ -1,5 +1,5 @@
 <#
-    Version: 20
+    Version: 21
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -348,8 +348,58 @@ function New-Point{
 
 function New-Popup{
     #This is using VBScript popup, more info about it can be found here https://ss64.com/vb/popup.html
-    param([String]$Title = "", [String]$Text, [int]$Type = 0)
-    return (New-Object -ComObject WScript.Shell).Popup($Text, 0, $Title, $Type)
+    param(
+        [String]$Title = "", 
+        [String]$Text, 
+        $Type = 0, 
+        [Switch]$Type:OkCancel,
+        [Switch]$Type:AbortRetryIgnore,
+        [Switch]$Type:YesNoCancel,
+        [Switch]$Type:Yes,
+        [Switch]$Type:RetryCancel,
+        $Icon = 0, 
+        [Switch]$Icon:Critical,
+        [Switch]$Icon:Question,
+        [Switch]$Icon:Exclamation,
+        [Switch]$Icon:Information,
+        [Switch]$ReturnText
+    )
+
+    switch($Type){
+        "OKOnly" { $Type = 0 }
+        "OkCancel" { $Type = 1 }
+        "AbortRetryIgnore" { $Type = 2 }
+        "YesNoCancel" { $Type = 3 }
+        "YesNo" { $Type = 4 }
+        "RetryCancel" { $Type = 5 }
+        default {} # TODO, make sure $Type is integer, otherwise return 0
+    }
+
+    switch($Icon){
+        "Critical" { $Icon = 16 }
+        "Question" { $Icon = 32 }
+        "Exclamation" { $Icon = 48 }
+        "Information" { $Icon = 64 }
+        default {} # TODO, make sure $Icon is integer, otherwise return 0
+    }
+
+    $stringReturns = @{
+        "1" = "OK";
+        "2" = "Cancel";
+        "3" = "Abort";
+        "4" = "Retry";
+        "5" = "Ignore";
+        "6" = "Yes";
+        "7" = "No";
+    }
+
+    $return = (New-Object -ComObject WScript.Shell).Popup($Text, 0, $Title, $($Type+$Icon))
+
+    if($ReturnText){
+        $return = $stringReturns["$return"]
+    }
+
+    return $return
 }
 
 
