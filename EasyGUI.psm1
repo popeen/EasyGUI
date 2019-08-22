@@ -1,5 +1,5 @@
 <#
-    Version: 22
+    Version: 23
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -325,17 +325,6 @@ function New-Font{
     return New-Object System.Drawing.Font($Font, $Size, $Style)
 }
 
-function Get-Icon{
-    param([String]$File, [int]$IconNumber = 0, [boolean]$LargeIcon = $TRUE)
-    switch($File){
-        "Explorer" { return Get-Icon "C:\Windows\explorer.exe" }
-        "Internet" { return Get-Icon "C:\Program Files\Internet Explorer\iexplore.exe" }
-        "Notepad" { return Get-Icon "C:\Windows\System32\Notepad.exe" }
-        "Powershell" { return Get-Icon "C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe" }
-        default { return [System.IconExtractor]::Extract($File, $IconNumber, $LargeIcon) }
-    }
-}
-
 function New-MessageBox{
     param([String]$Title = "", [String]$Text, [String]$Type = "ok")
     [System.Windows.MessageBox]::Show($Text, $Title, $Type)
@@ -367,7 +356,7 @@ function New-Popup{
     )
 
     switch($Type){
-        "OKOnly" { $Type = 0 }
+        "OkOnly" { $Type = 0 }
         "OkCancel" { $Type = 1 }
         "AbortRetryIgnore" { $Type = 2 }
         "YesNoCancel" { $Type = 3 }
@@ -502,6 +491,19 @@ function New-InputBox{
     }
 }
 
+########################################## MISC ##########################################
+   #For miscellaneous helper functions that don't fit in any other category
+
+function Get-Icon{
+    param([String]$File, [int]$IconNumber = 0, [boolean]$LargeIcon = $TRUE)
+    switch($File){
+        "Explorer" { return Get-Icon "C:\Windows\explorer.exe" }
+        "Internet" { return Get-Icon "C:\Program Files\Internet Explorer\iexplore.exe" }
+        "Notepad" { return Get-Icon "C:\Windows\System32\Notepad.exe" }
+        "Powershell" { return Get-Icon "C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe" }
+        default { return [System.IconExtractor]::Extract($File, $IconNumber, $LargeIcon) }
+    }
+}
 
 ######################################### ALIASES #########################################
    #This is for setting aliases, manly to keep backward compatibility
