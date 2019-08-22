@@ -1,5 +1,5 @@
 <#
-    Version: 24
+    Version: 25
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -354,15 +354,15 @@ function New-Popup{
         [Switch]$Icon:Information,
         [Switch]$ReturnText
     )
-
+    
     switch($Type){
-        "OkOnly" { $Type = 0 }
+        "OKOnly" { $Type = 0 }
         "OkCancel" { $Type = 1 }
         "AbortRetryIgnore" { $Type = 2 }
         "YesNoCancel" { $Type = 3 }
         "YesNo" { $Type = 4 }
         "RetryCancel" { $Type = 5 }
-        default {} # TODO, make sure $Type is integer, otherwise return 0
+        default { if($Type -notmatch '^[0-9]+$'){ $Type = 0 } }
     }
 
     switch($Icon){
@@ -370,7 +370,7 @@ function New-Popup{
         "Question" { $Icon = 32 }
         "Exclamation" { $Icon = 48 }
         "Information" { $Icon = 64 }
-        default {} # TODO, make sure $Icon is integer, otherwise return 0
+        default { if($Icon -notmatch '^[0-9]+$'){ $Icon = 0 } }
     }
 
     $stringReturns = @{
@@ -384,6 +384,11 @@ function New-Popup{
     }
 
     $return = (New-Object -ComObject WScript.Shell).Popup($Text, 0, $Title, $($Type+$Icon))
+
+    #If $Type+$Icon is a number that VBS Popup don't support no popup is shown, if so show an OkOnly popup without any icons
+    if($return -eq $NULL){
+        $return = (New-Object -ComObject WScript.Shell).Popup($Text, 0, $Title, 0)
+    }
 
     if($ReturnText){
         $return = $stringReturns["$return"]
