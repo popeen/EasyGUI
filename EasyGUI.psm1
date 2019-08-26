@@ -1,5 +1,5 @@
 <#
-    Version: 25
+    Version: 26
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -96,10 +96,6 @@ function Initialize-EasyGUI{
 
 
 
-}
-    
-function Use-EasyGUI{
-    Initialize-EasyGUI
 }
 
 function Hide-Console{
