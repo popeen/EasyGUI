@@ -1,5 +1,5 @@
 <#
-    Version: 26
+    Version: 28
 
     OBS, ISE will not show you your objects properties in intellisense unless you run the script first.
     Normally running a WinForms script in ISE is a bad idea due to a bug with WinForms that causes ISE to freeze, with EasyGUI however you can safely run the script.
@@ -170,138 +170,20 @@ function New-Thread{
 }
     
 ################################### NEW-OBJECTS WinForms ###################################
-    #This is where all the WinForms objects can be found
-    #OBS, not every object has been added yet since I add them as needed
-
-
-function New-Button{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.Button -Property $Property
-}
-	
-function New-Checkbox{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.Checkbox -Property $Property
-}
-	
-function New-ComboBox{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.ComboBox -Property $Property
-}
-	
-function New-DataGridView{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.DataGridView -Property $Property
-}
-	
-function New-FlowLayoutPanel{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.FlowLayoutPanel -Property $Property
-}
-	
-function New-Form($Property){
-    return New-Object System.Windows.Forms.Form -Property $Property
-}
-	
-function New-GroupBox{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.GroupBox -Property $Property
-}
-    
-function New-Label{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.Label -Property $Property
-}
-    
-function New-ListBox{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.ListBox -Property $Property
-}
-    
-function New-MenuStrip{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.MenuStrip -Property $Property
-}
-
-function New-OpenFileDialog{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.OpenFileDialog -Property $Property
-}
-
-function New-Padding{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.Padding -Property $Property
-}
-
-function New-Panel{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.Panel -Property $Property
-}
-
-function New-PictureBox{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.PictureBox -Property $Property
-}
-    
-function New-ProgressBar{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.ProgressBar -Property $Property
-}
-    
-function New-RadioButton{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.RadioButton -Property $Property
-}
-    
-function New-RichTextBox{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.RichTextBox -Property $Property
-}
-    
-function New-SaveFileDialog{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.SaveFileDialog -Property $Property
-}
-    
-function New-StatusBar{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.StatusBar -Property $Property
-}
-
-function New-TabControl{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.TabControl -Property $Property
-}	
-
-function New-TabPage{
-    param([Hashtable]$Property)
-    return New-Object System.Windows.Forms.TabPage -Property $Property
-}
-
-function New-TextBox{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.TextBox -Property $Property
-}
-	
-function New-ToolStripMenuItem{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.ToolStripMenuItem -Property $Property
-}
-	
-function New-ToolStripSeparator{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.ToolStripSeparator -Property $Property
-}
-
-function New-ToolTip{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.ToolTip -Property $Property
-}
-	
-function New-WebBrowser{
-    param([HashTable]$Property)
-    return New-Object System.Windows.Forms.WebBrowser -Property $Property
-}
+    #Generates functions for creating WinForms objects, example New-Button and New-Form
+    $pref = $ErrorActionPreference
+    $ErrorActionPreference = "silentlycontinue"
+    ([Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")).GetTypes()|ForEach-Object{
+        if(New-Object System.Windows.Forms.$($_.Name)){
+            $str = "
+                [OutputType([System.Windows.Forms.$($_.Name)])]
+                param([HashTable]`$Property)
+                New-Object System.Windows.Forms.$($_.Name) -Property `$Property
+            "
+            New-Item -path function:\ -Name global:New-$($_.Name) -Value $([Scriptblock]::Create($str)) -Options AllScope
+        }
+    }
+    $ErrorActionPreference = $pref
     
 
 
