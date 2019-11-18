@@ -176,13 +176,6 @@ function New-Thread{
     #OBS, when updating these functions don´t do that by hand, they are to be generated with the script New-WinFormsFunctions.ps1
     
 
-    function New-ApplicationContext{
-        [OutputType([System.Windows.Forms.ApplicationContext])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ApplicationContext -Property $Property
-    }
-    
-
     function New-AccessibleObject{
         [OutputType([System.Windows.Forms.AccessibleObject])]
         param([HashTable]$Property)
@@ -274,6 +267,13 @@ function New-Thread{
     }
     
 
+    function New-ColumnStyle{
+        [OutputType([System.Windows.Forms.ColumnStyle])]
+        param([HashTable]$Property)
+        New-Object System.Windows.Forms.ColumnStyle -Property $Property
+    }
+    
+
     function New-ComboBox{
         [OutputType([System.Windows.Forms.ComboBox])]
         param([HashTable]$Property)
@@ -306,13 +306,6 @@ function New-Thread{
         [OutputType([System.Windows.Forms.Control])]
         param([HashTable]$Property)
         New-Object System.Windows.Forms.Control -Property $Property
-    }
-    
-
-    function New-ImeModeConversion{
-        [OutputType([System.Windows.Forms.ImeModeConversion])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ImeModeConversion -Property $Property
     }
     
 
@@ -673,6 +666,13 @@ function New-Thread{
     }
     
 
+    function New-ImeModeConversion{
+        [OutputType([System.Windows.Forms.ImeModeConversion])]
+        param([HashTable]$Property)
+        New-Object System.Windows.Forms.ImeModeConversion -Property $Property
+    }
+    
+
     function New-KeysConverter{
         [OutputType([System.Windows.Forms.KeysConverter])]
         param([HashTable]$Property)
@@ -722,13 +722,6 @@ function New-Thread{
     }
     
 
-    function New-ListViewItemConverter{
-        [OutputType([System.Windows.Forms.ListViewItemConverter])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ListViewItemConverter -Property $Property
-    }
-    
-
     function New-ListView{
         [OutputType([System.Windows.Forms.ListView])]
         param([HashTable]$Property)
@@ -747,6 +740,13 @@ function New-Thread{
         [OutputType([System.Windows.Forms.ListViewItem])]
         param([HashTable]$Property)
         New-Object System.Windows.Forms.ListViewItem -Property $Property
+    }
+    
+
+    function New-ListViewItemConverter{
+        [OutputType([System.Windows.Forms.ListViewItemConverter])]
+        param([HashTable]$Property)
+        New-Object System.Windows.Forms.ListViewItemConverter -Property $Property
     }
     
 
@@ -855,6 +855,13 @@ function New-Thread{
     }
     
 
+    function New-PageSetupDialog{
+        [OutputType([System.Windows.Forms.PageSetupDialog])]
+        param([HashTable]$Property)
+        New-Object System.Windows.Forms.PageSetupDialog -Property $Property
+    }
+    
+
     function New-Panel{
         [OutputType([System.Windows.Forms.Panel])]
         param([HashTable]$Property)
@@ -866,6 +873,27 @@ function New-Thread{
         [OutputType([System.Windows.Forms.PictureBox])]
         param([HashTable]$Property)
         New-Object System.Windows.Forms.PictureBox -Property $Property
+    }
+    
+
+    function New-PrintDialog{
+        [OutputType([System.Windows.Forms.PrintDialog])]
+        param([HashTable]$Property)
+        New-Object System.Windows.Forms.PrintDialog -Property $Property
+    }
+    
+
+    function New-PrintPreviewControl{
+        [OutputType([System.Windows.Forms.PrintPreviewControl])]
+        param([HashTable]$Property)
+        New-Object System.Windows.Forms.PrintPreviewControl -Property $Property
+    }
+    
+
+    function New-PrintPreviewDialog{
+        [OutputType([System.Windows.Forms.PrintPreviewDialog])]
+        param([HashTable]$Property)
+        New-Object System.Windows.Forms.PrintPreviewDialog -Property $Property
     }
     
 
@@ -922,6 +950,13 @@ function New-Thread{
         [OutputType([System.Windows.Forms.RichTextBox])]
         param([HashTable]$Property)
         New-Object System.Windows.Forms.RichTextBox -Property $Property
+    }
+    
+
+    function New-RowStyle{
+        [OutputType([System.Windows.Forms.RowStyle])]
+        param([HashTable]$Property)
+        New-Object System.Windows.Forms.RowStyle -Property $Property
     }
     
 
@@ -1009,20 +1044,6 @@ function New-Thread{
     }
     
 
-    function New-ColumnStyle{
-        [OutputType([System.Windows.Forms.ColumnStyle])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ColumnStyle -Property $Property
-    }
-    
-
-    function New-RowStyle{
-        [OutputType([System.Windows.Forms.RowStyle])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.RowStyle -Property $Property
-    }
-    
-
     function New-TabPage{
         [OutputType([System.Windows.Forms.TabPage])]
         param([HashTable]$Property)
@@ -1079,6 +1100,20 @@ function New-Thread{
     }
     
 
+    function New-ToolStripContainer{
+        [OutputType([System.Windows.Forms.ToolStripContainer])]
+        param([HashTable]$Property)
+        New-Object System.Windows.Forms.ToolStripContainer -Property $Property
+    }
+    
+
+    function New-ToolStripContentPanel{
+        [OutputType([System.Windows.Forms.ToolStripContentPanel])]
+        param([HashTable]$Property)
+        New-Object System.Windows.Forms.ToolStripContentPanel -Property $Property
+    }
+    
+
     function New-ToolStripDropDown{
         [OutputType([System.Windows.Forms.ToolStripDropDown])]
         param([HashTable]$Property)
@@ -1111,20 +1146,6 @@ function New-Thread{
         [OutputType([System.Windows.Forms.ToolStripMenuItem])]
         param([HashTable]$Property)
         New-Object System.Windows.Forms.ToolStripMenuItem -Property $Property
-    }
-    
-
-    function New-ToolStripContainer{
-        [OutputType([System.Windows.Forms.ToolStripContainer])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ToolStripContainer -Property $Property
-    }
-    
-
-    function New-ToolStripContentPanel{
-        [OutputType([System.Windows.Forms.ToolStripContentPanel])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ToolStripContentPanel -Property $Property
     }
     
 
@@ -1267,127 +1288,8 @@ function New-Thread{
         New-Object System.Windows.Forms.WindowsFormsSynchronizationContext -Property $Property
     }
     
-
-    function New-PageSetupDialog{
-        [OutputType([System.Windows.Forms.PageSetupDialog])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.PageSetupDialog -Property $Property
-    }
-    
-
-    function New-PrintDialog{
-        [OutputType([System.Windows.Forms.PrintDialog])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.PrintDialog -Property $Property
-    }
-    
-
-    function New-PrintPreviewControl{
-        [OutputType([System.Windows.Forms.PrintPreviewControl])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.PrintPreviewControl -Property $Property
-    }
-    
-
-    function New-PrintPreviewDialog{
-        [OutputType([System.Windows.Forms.PrintPreviewDialog])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.PrintPreviewDialog -Property $Property
-    }
-    
-
-    function New-Button{
-        [OutputType([System.Windows.Forms.Button])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.Button -Property $Property
-    }
-    
-
-    function New-ComboBox{
-        [OutputType([System.Windows.Forms.ComboBox])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ComboBox -Property $Property
-    }
-    
-
-    function New-ListView{
-        [OutputType([System.Windows.Forms.ListView])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ListView -Property $Property
-    }
-    
-
-    function New-ProgressBar{
-        [OutputType([System.Windows.Forms.ProgressBar])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ProgressBar -Property $Property
-    }
-    
-
-    function New-ToolBar{
-        [OutputType([System.Windows.Forms.ToolBar])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ToolBar -Property $Property
-    }
-    
-
-    function New-ToolTip{
-        [OutputType([System.Windows.Forms.ToolTip])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.ToolTip -Property $Property
-    }
-    
-
-    function New-TrackBar{
-        [OutputType([System.Windows.Forms.TrackBar])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.TrackBar -Property $Property
-    }
-    
-
-    function New-TreeView{
-        [OutputType([System.Windows.Forms.TreeView])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.TreeView -Property $Property
-    }
-    
-
-    function New-TextBox{
-        [OutputType([System.Windows.Forms.TextBox])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.TextBox -Property $Property
-    }
-    
-
-    function New-RadioButton{
-        [OutputType([System.Windows.Forms.RadioButton])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.RadioButton -Property $Property
-    }
-    
-
-    function New-CheckBox{
-        [OutputType([System.Windows.Forms.CheckBox])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.CheckBox -Property $Property
-    }
-    
-
-    function New-GroupBox{
-        [OutputType([System.Windows.Forms.GroupBox])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.GroupBox -Property $Property
-    }
-    
-
-    function New-Button{
-        [OutputType([System.Windows.Forms.Button])]
-        param([HashTable]$Property)
-        New-Object System.Windows.Forms.Button -Property $Property
-    }
-    
 #endregion
-    
+   
 #region ################################### NEW-OBJECTS Others ###################################
     #Here you can find GUI objects that are not from WinForms but still may be usefull in a WinForms GUI
     
