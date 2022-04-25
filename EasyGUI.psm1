@@ -109,7 +109,7 @@ function Show-Console{
 function Stop-Console{
     [System.Windows.Forms.Application]::Exit()
     if($PSISE -EQ $NULL){
-        [Environment]::Exit(1)
+        exit 0
     }
 }
 
